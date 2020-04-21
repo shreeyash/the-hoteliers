@@ -1,0 +1,58 @@
+create database hms;
+use hms;
+
+create table hotel(hotel_id int not null primary key auto_increment, hotel_pass varchar(25) not null, hotel_name varchar(25) not null, hotel_desc varchar(50));
+
+insert into hotel(hotel_pass, hotel_name, hotel_desc) values('pass123', 'hotel sinjara', 'best hotel in less price with best services');
+
+create table customer(cust_id int not null primary key auto_increment, cust_hotel_id int, cust_address varchar(25) not null, cust_id_type varchar(25) not null, cust_phone varchar(25) not null unique, cust_fname varchar(25) not null, cust_lname varchar(25) not null,
+foreign key(cust_hotel_id) references hotel(hotel_id));
+
+create table employee(emp_id int not null primary key auto_increment, emp_hotel_id int, emp_name varchar(25) not null, emp_salary int not null, emp_joining_date date, emp_role varchar(25) not null, emp_phone varchar(25) not null unique, is_admin boolean default false, emp_pass varchar(25) default 'pass123', foreign key(emp_hotel_id) references hotel(hotel_id));
+
+
+create table booking(book_id int not null primary key auto_increment, book_cust_id int, book_hotel_id int, book_room_count int not null, book_amount int not null, check_in_date date, check_out_date date, foreign key(book_cust_id) references customer(cust_id), foreign key(book_hotel_id) references hotel(hotel_id));
+
+create table logged_in_hotel_id(id int, cust_id int, emp_id int);
+
+create table rooms(room_id int not null primary key auto_increment, room_hotel_id int, room_occupancy int not null, room_status varchar(25) not null, room_type varchar(25) not null, room_book_id int, foreign key(room_hotel_id) references hotel(hotel_id), foreign key(room_book_id) references booking(book_id));
+
+show tables;
+
+insert into employee(emp_hotel_id, emp_name, emp_salary, emp_joining_date, emp_role, emp_phone, is_admin, emp_pass) values 
+(1, 'admin', 90000, '2015-07-12', 'system administrator', '9074457210', true, 'admin123');
+
+insert into employee(emp_hotel_id, emp_name, emp_salary, emp_joining_date, emp_role, emp_phone) values 
+(1, 'suresh', 10000, '2015-12-18', 'chef', '9874563210'),
+(1, 'rajesh', 15000, '2016-02-19', 'kitchen manager', '9887563210'),
+(1, 'rohit', 20000, '2017-03-12', 'housekeeping', '6394563210'),
+(1, 'himanshu', 15000, '2016-05-01', 'frontdesk', '7544563210'),
+(1, 'ganesh', 250000, '2014-09-05', 'manager', '9984563210');
+
+insert into customer(cust_hotel_id, cust_address, cust_id_type, cust_phone, cust_fname, cust_lname) values
+(1, 'vaishali nagar', 'PAN', '9631594480', 'aman', 'singh'),
+(1, 'malviya nagar', 'Driving License', '9841594648', 'aviral', 'singh'),
+(1, 'mansarovar', 'Aadhar', '7211594560', 'diya', 'singh'),
+(1, 'santosh nagar', 'PAN', '9511594560', 'sandhya', 'singh'),
+(1, 'vidhyadhar nagar', 'Voter ID', '8451594560', 'gajraj', 'singh');
+
+
+insert into booking(book_cust_id, book_hotel_id, book_room_count, book_amount, check_in_date, check_out_date) values 
+(2, 1, 2, 2300, '2019-12-20', '2019-12-23'),
+(4, 1, 2, 2900, '2019-12-22', '2019-12-30');
+
+insert into rooms(room_hotel_id, room_occupancy, room_status, room_type, room_book_id) values (1, 1, 'v', 'single', null),
+(1, 2, 'v', 'double', 1),
+(1, 3, 'v', 'triple', null),
+(1, 4, 'v', 'quad', 2),
+(1, 5, 'v', 'queen', null),
+(1, 6, 'v', 'king', null);
+
+
+
+
+
+
+
+
+
